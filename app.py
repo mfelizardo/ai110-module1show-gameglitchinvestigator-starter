@@ -32,7 +32,8 @@ if "secret" not in st.session_state:
     st.session_state.secret = random.randint(low, high)
 
 if "attempts" not in st.session_state:
-    st.session_state.attempts = 1
+    # FIXED: first game no longer exhausts 1 attempt
+    st.session_state.attempts = 0       
 
 if "score" not in st.session_state:
     st.session_state.score = 0
@@ -45,7 +46,9 @@ if "history" not in st.session_state:
 
 st.subheader("Make a guess")
 
-st.info(
+#FIXED: Feedback saying number of Attempts Left is properly decremented after the first attempt
+attempts_display = st.empty()
+attempts_display.info(
     f"Guess a number between 1 and 100. "
     f"Attempts left: {attempt_limit - st.session_state.attempts}"
 )
@@ -57,24 +60,27 @@ with st.expander("Developer Debug Info"):
     st.write("Difficulty:", difficulty)
     st.write("History:", st.session_state.history)
 
-raw_guess = st.text_input(
-    "Enter your guess:",
-    key=f"guess_input_{difficulty}"
-)
-
-col1, col2, col3 = st.columns(3)
-with col1:
-    submit = st.button("Submit Guess 🚀")
-with col2:
-    new_game = st.button("New Game 🔁")
-with col3:
-    show_hint = st.checkbox("Show hint", value=True)
+#FIXED: you can now submit guesses using the Enter key
+with st.form(key="guess_form"):
+    raw_guess = st.text_input(
+        "Enter your guess:",
+        key=f"guess_input_{difficulty}"
+    )
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        submit = st.form_submit_button("Submit Guess 🚀")
+    with col2:
+        new_game = st.form_submit_button("New Game 🔁")
+    with col3:
+        show_hint = st.checkbox("Show hint", value=True)
 
 if new_game:
     st.session_state.attempts = 0
-    st.session_state.secret = random.randint(1, 100)
+
+    # FIXED: Secret number will be in a range dependent on selected difficulty
+    st.session_state.secret = random.randint(low, high)
+
     # FIXED: Now able to start new game after winning or losing previous game
-    # Claude located the fix here
     st.session_state.status = "playing"
     st.session_state.history = []
     st.success("New game started.")
@@ -89,6 +95,10 @@ if st.session_state.status != "playing":
 
 if submit:
     st.session_state.attempts += 1
+    attempts_display.info(
+        f"Guess a number between 1 and 100. "
+        f"Attempts left: {attempt_limit - st.session_state.attempts}"
+    )
 
     ok, guess_int, err = parse_guess(raw_guess)
 
