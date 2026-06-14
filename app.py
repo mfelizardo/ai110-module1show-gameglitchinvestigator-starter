@@ -36,7 +36,7 @@ if "attempts" not in st.session_state:
     st.session_state.attempts = 0       
 
 if "score" not in st.session_state:
-    st.session_state.score = 0
+    st.session_state.score = 100
 
 if "status" not in st.session_state:
     st.session_state.status = "playing"
@@ -82,6 +82,7 @@ if new_game:
 
     # FIXED: Now able to start new game after winning or losing previous game
     st.session_state.status = "playing"
+    st.session_state.score = 100
     st.session_state.history = []
     st.success("New game started.")
     st.rerun()
@@ -119,9 +120,9 @@ if submit:
             st.warning(message)
 
         st.session_state.score = update_score(
-            current_score=st.session_state.score,
             outcome=outcome,
             attempt_number=st.session_state.attempts,
+            attempt_limit=attempt_limit,
         )
 
         if outcome == "Win":
@@ -133,6 +134,7 @@ if submit:
             )
         else:
             if st.session_state.attempts >= attempt_limit:
+                st.session_state.score = 0
                 st.session_state.status = "lost"
                 st.error(
                     f"Out of attempts! "

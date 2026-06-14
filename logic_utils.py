@@ -54,21 +54,13 @@ def check_guess(guess, secret):
             return "Too High", "📉 Go LOWER!"
         return "Too Low", "📈 Go HIGHER!"
 
-
-def update_score(current_score: int, outcome: str, attempt_number: int):
-    """Update score based on outcome and attempt number."""
+# FIXED: score now calculates properly
+def update_score(outcome: str, attempt_number: int, attempt_limit: int) -> int:
+    """Compute game score in [0, 100]. Win on attempt 1 = 100; loss = 0."""
     if outcome == "Win":
-        points = 100 - 10 * (attempt_number + 1)
-        if points < 10:
-            points = 10
-        return current_score + points
+        score = round(100 * (attempt_limit - attempt_number + 1) / attempt_limit)
+        return max(0, min(100, score))
 
-    if outcome == "Too High":
-        if attempt_number % 2 == 0:
-            return current_score + 5
-        return current_score - 5
-
-    if outcome == "Too Low":
-        return current_score - 5
-
-    return current_score
+    # Wrong guess: show potential score if the player wins on the next attempt.
+    remaining = attempt_limit - attempt_number
+    return max(0, round(100 * remaining / attempt_limit))
