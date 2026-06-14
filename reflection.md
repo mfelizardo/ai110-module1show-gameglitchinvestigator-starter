@@ -38,18 +38,23 @@ Document at least 3 bugs you found. Add rows as needed.
 ## 2. How did you use AI as a teammate?
 
 - Which AI tools did you use on this project (for example: ChatGPT, Gemini, Copilot)?
+  - Claude Code
 - Give one example of an AI suggestion that was correct (including what the AI suggested and how you verified the result).
+  - The AI suggested that there was a bug in the `check_guess` function where the hints were inverted ("Too High" tells the player to go higher, and "Too Low" tells them to go lower (lines 38–40).) I verified this because when testing the game, guessing a number that was higher than the secret number showed me the hint "Go Higher", even though the correct hint should have been "Go Lower" in order to direct the player closer to the secret number.
 - Give one example of an AI suggestion that was incorrect or misleading (including what the AI suggested and how you verified the result).
+  - The AI suggested that there was a Bug in the `get_range_for_difficulty` function where the "Hard" difficulty returned a range that was easier than the "Normal" difficulty and suggested to widen its range. This seemed reasonable but Claude failed to recognize that although the number range for the "Hard" difficulty was indeed smaller than "Normal", the "Hard" difficulty also has less guessing attempts (5 vs. 8). Because of this, I've determined that the "Hard" number range can remain smaller than the "Normal" number range if the lower given attempts also remains. 
 
 ---
 
 ## 3. Debugging and testing your fixes
 
 - How did you decide whether a bug was really fixed?
+  - I verified that a bug was fixed by first playing the game myself once again and seeing if I can recreate the bug after doing certain actions (ex. guessing a higher number than the secret number to see what hint would appear). Once I determined that the result of the action is the intended behavior, I become more confident that the bug was really fixed. I solidify my understanding of the bug fix my also asking Claude to generate test cases relating to the bug or function that the bug was apart of and verifying that those tests passed. 
 - Describe at least one test you ran (manual or using pytest)  
   and what it showed you about your code.
+  - I used Claude to help create and edit pytests in `test_game_logic.py` in order to test the `check_guess` function. One thing that it showed about my code is that I first had to refactor the `check_guess` function into `logic_utils.py`. After refactoring, I was able to successfully run the tests and verify that guesses of varying ranges (higher, lower, and equal to the secret number) all provided the expected results.
 - Did AI help you design or understand any tests? How?
-
+  - Claude Code did help me design pytests, and it also helped me understand them by leaving comments in each test case so I know specifically what input is being tested and what the expected outputs are. Initially, after giving my first prompt regarding tests, Claude wanted to create additional files in order to run tests with a mock Streamlit environment, but I rejected that after determining that that was unneccessary at this point in the project.
 ---
 
 ## 4. What did you learn about Streamlit and state?
