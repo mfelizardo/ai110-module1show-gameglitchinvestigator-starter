@@ -11,7 +11,7 @@ def parse_guess(raw: str):
     """
     raise NotImplementedError("Refactor this function from app.py into logic_utils.py")
 
-
+# FIXED: Refactored into logic_utils and now gives correct hints (no longer inverted)
 def check_guess(guess, secret):
     """
     Compare guess to secret and return (outcome, message).
