@@ -12,10 +12,7 @@ Answer each question in 3 to 5 sentences. Be specific and honest about what actu
   (for example: "the hints were backwards").
 
   1. The hints were backwards (guessing a number that was higher than the secret number gave the hint "Go Higher" when it should say "Go Lower")
-  2. When entering a guess in the given text box, pressing Enter to submit the guess doesn't actually do anything. Guesses can only be submitted by clicking the Submit Guess Button. 
-        1. The following comment may only apply to when the Develop Debug Info section is expanded:
-         
-         However, when entering a second guess by changing the current value in the text box and then pressing the Enter key, it appears that the previous guess gets recorded into the History as well as increments the Attempts value. (Note: the same behavior can occur when simply clicking out of the text box after changing the number instead of clicking Enter. This may also confuse the player because if they enter their second guess and immediately click the Submit Guess Button, it doesn't actually submit their second guess. They would have to click the button again. This confusion however, will only occur if the Developer Debug Info is expanded. If the info panel is closed, then it looks like submitting subsequent guesses and then clicking the Submit Guess Button once is working as intended).
+  2. When entering a guess in the given text box, pressing Enter to submit the guess doesn't actually do anything. Guesses can only be submitted by clicking the Submit Guess Button.
   3. It looks like the first game when launching already has Attempts at 1 when it should start at 0 (since the player hasn't made a guess yet). We also know that Attempts should probably start at 0 because when clicking the New Game Button, the Attempts value gets updated to 0.
   4. Clicking the New Game Button after the end of a current game (either Win or Lose) doesn't start a new game. It appears that the Secret number still changes and the Attempts reset to 0 (if not already) however but the player cannot input anymore guesses.
   5. Adjusting the Difficulty in the Settings sidebar does not update the range of the secret number. The range of the secret numbers remains unchanged at any value between 1 and 100, even though the range for Easy should be 1 to 20 and the range for Hard should be 1 to 50.
@@ -61,6 +58,7 @@ Document at least 3 bugs you found. Add rows as needed.
 ## 4. What did you learn about Streamlit and state?
 
 - How would you explain Streamlit "reruns" and session state to a friend who has never used Streamlit?
+  - Streamlit "reruns" is the natural behavior of a Streamlit app in which the entire script of the app is executed again when the app user performs any action. Using this Number Guessing Game as an example, when the user enters a guess, the app runs its script again and rerenders the page to account for any changes. We use session states in order to preserve values as the Streamlit app "reruns", or else these values get lost. For example in our Number Guessing Game, we use session states to keep track of the current game's secret number so that it remains the same as the user enters multiple guesses, otherwise the user would be guessing a different randomly generated secret number after each individual guess. 
 
 ---
 
@@ -68,5 +66,8 @@ Document at least 3 bugs you found. Add rows as needed.
 
 - What is one habit or strategy from this project that you want to reuse in future labs or projects?
   - This could be a testing habit, a prompting strategy, or a way you used Git.
+     - One strategy that I would like to reuse in future labs is to first prompt the AI to give me a broad overview of the codebase in order to help me quickly understand it. In this project specifically I was able to learn the intended use of `logic_utils.py` and the AI agent was even able to self-identifty some bugs (however, some of them needed follow-ups and more clarification before implementing the fixes)
 - What is one thing you would do differently next time you work with AI on a coding task?
+  - One strategy that I would really like to do differently or improve on is refining my prompting by specifying where exactly I'd like the AI to search in the codebase for purposes such as debugging. I found that by doing this, the AI spent much less time reading through the files and reducing token usage. Even if I can't pinpoint the exact line of the potential bug, just providing the function name or even just the file name would be more effective and efficient that not providing any context of where to look at all.
 - In one or two sentences, describe how this project changed the way you think about AI generated code.
+  - Overall, this project mostly gave me a positve view on the way I see AI generated code because as long as the prompt is specific enough and with some refining if necessary, the product that the AI spits out can be very effective, functional, and understandable. I also appreciate how sometimes the AI leaves comments explaining things (ex. what each pytest is testing for).
