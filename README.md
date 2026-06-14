@@ -26,18 +26,28 @@ It wrote the code, ran away, and now the game is unplayable.
 ## 📝 Document Your Experience
 
 - [ ] Describe the game's purpose.
+  - [ ] The game's purpose is to generate a random secret number and allow the user to try and guess the secret number within a limited amount of attempts. For each attempt that isn't the correct guess, a hint will be provided guiding the user closer to the actual secret number. This game initially has a lot of bugs that I (the developer) had to fix. Fortunately, I had Claude Code to help me debug and implement fixes.
 - [ ] Detail which bugs you found.
+  - [ ] Hints were inverted
+  - [ ] Enter button to submit guess didn't work
+  - [ ] Unable to start new game after winning or losing the previous game
+  - [ ] Score calculation was inaccurate
 - [ ] Explain what fixes you applied.
+  - [ ] Swapped hint messages in `check_guess` function
+  - [ ] Implemented a Streamlit Form to allow use of Enter key to submit guess
+  - [ ] Adjusted session state status back to "playing" after pressing New Game
+  - [ ] Adjusted the `update_score` function to return a score that makes sense based on number of attempts remaining
 
 ## 📸 Demo Walkthrough
 
 Describe your fixed game in numbered steps so a reader can follow along without watching a video:
 
-1. <!-- Describe this step -->
-2. <!-- Describe this step -->
-3. <!-- Describe this step -->
-4. <!-- Describe this step -->
-5. <!-- Add more steps as needed -->
+1. User submits guess of 50 (submitted by clicking Submit Guess button)
+2. Game returns Hint: Go Higher! Attempts decreases from 8 to 7
+3. User submits guess of 75 (submitted by pressing the Enter key)
+4. Game returns Hint: Go Higher! Attempts decreases from 7 to 6
+5. User submits guess of 90 (submitted by pressing the Enter key)
+6. Game returns "Correct! You won! The secret was 90. Final score: 75"
 
 **Screenshot** *(optional)*: <!-- Insert a screenshot of your fixed, winning game here -->
 
