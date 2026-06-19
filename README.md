@@ -58,6 +58,19 @@ Describe your fixed game in numbered steps so a reader can follow along without 
 # pytest tests/
 # ========================= X passed in 0.XXs =========================
 ```
+```
+============================================================================================================ test session starts =============================================================================================================
+platform win32 -- Python 3.13.13, pytest-9.0.3, pluggy-1.6.0
+rootdir: C:\Users\Mikey\Desktop\CodePath Courses\AI Engineering\Project 1\ai110-module1show-gameglitchinvestigator-starter
+plugins: anyio-4.13.0
+collected 29 items                                                                                                                                                                                                                            
+
+tests\test_game_logic.py .........                                                                                                                                                                                                      [ 31%]
+tests\test_new_game.py ....                                                                                                                                                                                                             [ 44%]
+tests\test_score.py ................                                                                                                                                                                                                    [100%]
+
+============================================================================================================= 29 passed in 2.43s =============================================================================================================
+```
 
 ## 🚀 Stretch Features
 

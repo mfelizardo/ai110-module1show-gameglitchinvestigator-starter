@@ -1,4 +1,4 @@
-from logic_utils import check_guess
+from logic_utils import check_guess, parse_guess
 
 def test_winning_guess():
     # If the secret is 50 and guess is 50, it should be a win
@@ -34,3 +34,22 @@ def test_hints_are_not_inverted():
     _, low_msg = check_guess(1, 99)
     assert "LOWER" in high_msg, f"Too High hint should say LOWER, got: {high_msg!r}"
     assert "HIGHER" in low_msg, f"Too Low hint should say HIGHER, got: {low_msg!r}"
+
+def test_non_whole_number_guess():
+    # A decimal input like "50.7" should be accepted and truncated to an int
+    ok, value, error = parse_guess("50.7")
+    assert ok is True
+    assert value == 50
+    assert error is None
+
+def test_very_large_number_guess():
+    # A very large number should still compare correctly against a normal secret
+    outcome, _ = check_guess(999999999, 50)
+    assert outcome == "Too High"
+
+def test_non_number_input():
+    # A non-numeric string should fail parsing with a descriptive error
+    ok, value, error = parse_guess("hello")
+    assert ok is False
+    assert value is None
+    assert error == "That is not a number."
